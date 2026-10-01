@@ -1,87 +1,23 @@
-// Objective 4 (support data): a small seeded dataset used by the Phase 1
-// rule-based itinerary engine. In Phase 2 the BTech team will replace/extend
-// this with a real recommendation algorithm (content-based / collaborative
-// filtering) — this file gives them a concrete data shape to build against.
-
-const destinations = [
-  {
-    name: "Goa",
-    type: "beach",
-    budgetLevel: "medium",
-    tags: ["nightlife", "food", "relaxation"],
-    activities: [
-      { title: "Baga Beach walk & water sports", cost: 1200 },
-      { title: "Fort Aguada sunset visit", cost: 300 },
-      { title: "Anjuna flea market", cost: 800 },
-      { title: "Beach shack seafood dinner", cost: 900 },
-      { title: "Dudhsagar Falls day trip", cost: 1500 },
-    ],
-  },
-  {
-    name: "Manali",
-    type: "mountains",
-    budgetLevel: "medium",
-    tags: ["trekking", "adventure", "nature"],
-    activities: [
-      { title: "Solang Valley adventure sports", cost: 1500 },
-      { title: "Hadimba Temple & Old Manali walk", cost: 200 },
-      { title: "Rohtang Pass excursion", cost: 2000 },
-      { title: "Local cafe hopping in Old Manali", cost: 700 },
-      { title: "River Beas camping night", cost: 1800 },
-    ],
-  },
-  {
-    name: "Jaipur",
-    type: "heritage",
-    budgetLevel: "low",
-    tags: ["museums", "food", "history"],
-    activities: [
-      { title: "Amber Fort guided tour", cost: 600 },
-      { title: "City Palace & Jantar Mantar", cost: 500 },
-      { title: "Hawa Mahal photo stop", cost: 100 },
-      { title: "Johari Bazaar shopping", cost: 1000 },
-      { title: "Rajasthani thali dinner", cost: 600 },
-    ],
-  },
-  {
-    name: "Bengaluru",
-    type: "city",
-    budgetLevel: "high",
-    tags: ["nightlife", "food", "shopping"],
-    activities: [
-      { title: "Lalbagh Botanical Garden", cost: 100 },
-      { title: "MG Road & Brigade Road shopping", cost: 1500 },
-      { title: "Craft brewery hopping", cost: 2000 },
-      { title: "Nandi Hills sunrise trip", cost: 1000 },
-      { title: "Fine-dining tasting menu", cost: 3000 },
-    ],
-  },
-  {
-    name: "Jim Corbett",
-    type: "wildlife",
-    budgetLevel: "high",
-    tags: ["nature", "trekking"],
-    activities: [
-      { title: "Jeep safari in the core zone", cost: 3500 },
-      { title: "Corbett Waterfall trek", cost: 300 },
-      { title: "Riverside nature walk", cost: 200 },
-      { title: "Bird-watching morning trail", cost: 500 },
-      { title: "Bonfire evening at the resort", cost: 800 },
-    ],
-  },
-  {
-    name: "Rishikesh",
-    type: "adventure",
-    budgetLevel: "low",
-    tags: ["trekking", "adventure", "relaxation"],
-    activities: [
-      { title: "White-water rafting on the Ganges", cost: 1000 },
-      { title: "Laxman Jhula & Ram Jhula walk", cost: 100 },
-      { title: "Evening Ganga Aarti at Triveni Ghat", cost: 0 },
-      { title: "Bungee jumping at Jumpin Heights", cost: 3500 },
-      { title: "Beatles Ashram visit", cost: 150 },
-    ],
-  },
+const localImages={
+"goa":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Colva_Beach%2C_Goa%2C_India.jpg/1280px-Colva_Beach%2C_Goa%2C_India.jpg",
+"manali":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/The_Himalayan_mountains_in_Manali%2C_Himachal_Pradesh.jpg/1280px-The_Himalayan_mountains_in_Manali%2C_Himachal_Pradesh.jpg",
+"jaipur":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Hawa_Mahal_in_Jaipur%2C_Rajasthan.jpg/1280px-Hawa_Mahal_in_Jaipur%2C_Rajasthan.jpg",
+"bengaluru":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Vidhansoudha.jpg/1280px-Vidhansoudha.jpg",
+"corbett":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Images_of_Tiger_at_Jim_Corbett_National_Park.jpg/1180px-Images_of_Tiger_at_Jim_Corbett_National_Park.jpg",
+"rishikesh":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/The_Ganga_at_Rishikesh.jpg/1280px-The_Ganga_at_Rishikesh.jpg",
+"udaipur":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Lake_Palace%2CUdaipur.jpg/1280px-Lake_Palace%2CUdaipur.jpg",
+"ladakh":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Ladakh%2C_pangong_lake.jpg/1280px-Ladakh%2C_pangong_lake.jpg"
+};
+const img=(id)=>localImages[id]||"/images/fallback.svg";
+const destinations=[
+{name:"Goa",country:"India",type:"beach",budgetLevel:"medium",rating:4.8,image:img("goa"),estimatedDailyBudget:2600,bestMonths:["November","December","January","February","March"],tags:["nightlife","food","relaxation","beach","water sports"],highlights:["Baga & Anjuna beaches","Portuguese heritage","Sunset beach cafés"],travelTips:["Book beach stays early in peak season","Renting a scooter is convenient; carry your licence","Keep one relaxed evening for the beach"],activities:[
+{title:"Baga Beach & water sports",description:"Start with a beach walk and optional water sports.",cost:1200,time:"Morning",category:"Beach"},{title:"Fort Aguada sunset",description:"Explore the old fort and finish with a coastal sunset.",cost:300,time:"Afternoon",category:"Heritage"},{title:"Anjuna market",description:"Browse local crafts, clothes and souvenirs.",cost:800,time:"Evening",category:"Shopping"},{title:"Beach shack dinner",description:"Try a local seafood or vegetarian Goan dinner.",cost:900,time:"Night",category:"Food"},{title:"Dudhsagar day trip",description:"A full-day waterfall and nature excursion.",cost:1500,time:"Day trip",category:"Nature"}]},
+{name:"Manali",country:"India",type:"mountains",budgetLevel:"medium",rating:4.7,image:img("manali"),estimatedDailyBudget:2400,bestMonths:["March","April","May","October","November"],tags:["trekking","adventure","nature","cafes","snow"],highlights:["Solang Valley","Old Manali cafés","Mountain viewpoints"],travelTips:["Carry layers even in summer","Allow buffer time for mountain roads","Keep altitude-sensitive activities flexible"],activities:[{title:"Solang Valley adventure",description:"Cable car, views and optional adventure activities.",cost:1500,time:"Morning",category:"Adventure"},{title:"Hadimba Temple & Old Manali",description:"Walk through cedar forests and the old town.",cost:200,time:"Afternoon",category:"Culture"},{title:"Mountain café evening",description:"Relax with local food and views.",cost:700,time:"Evening",category:"Food"},{title:"Rohtang excursion",description:"Seasonal high-altitude excursion; availability depends on weather.",cost:2000,time:"Full day",category:"Nature"},{title:"Beas riverside walk",description:"A calm nature break near the river.",cost:0,time:"Evening",category:"Nature"}]},
+{name:"Jaipur",country:"India",type:"heritage",budgetLevel:"low",rating:4.7,image:img("jaipur"),estimatedDailyBudget:1800,bestMonths:["October","November","December","January","February","March"],tags:["museums","food","history","shopping","architecture"],highlights:["Amber Fort","Hawa Mahal","City Palace & markets"],travelTips:["Start forts early to avoid heat","Carry water during walking tours","Compare prices before buying handicrafts"],activities:[{title:"Amber Fort guided tour",description:"Explore Jaipur's hilltop fort and courtyards.",cost:600,time:"Morning",category:"Heritage"},{title:"City Palace & Jantar Mantar",description:"Two landmark sites in the old city.",cost:500,time:"Afternoon",category:"Culture"},{title:"Hawa Mahal photo stop",description:"See Jaipur's iconic façade and surrounding streets.",cost:100,time:"Afternoon",category:"Architecture"},{title:"Johari Bazaar",description:"Browse jewellery, textiles and crafts.",cost:1000,time:"Evening",category:"Shopping"},{title:"Rajasthani thali dinner",description:"Try a traditional regional meal.",cost:600,time:"Night",category:"Food"}]},
+{name:"Bengaluru",country:"India",type:"city",budgetLevel:"high",rating:4.6,image:img("bengaluru"),estimatedDailyBudget:3200,bestMonths:["January","February","March","October","November","December"],tags:["nightlife","food","shopping","cafes","technology"],highlights:["Lalbagh","MG Road","Food and café scene"],travelTips:["Traffic can add significant travel time","Cluster nearby places together","Reserve popular restaurants on weekends"],activities:[{title:"Lalbagh Botanical Garden",description:"A calm green start to the day.",cost:100,time:"Morning",category:"Nature"},{title:"MG Road & Brigade Road",description:"Shopping and city exploration.",cost:1500,time:"Afternoon",category:"Shopping"},{title:"Craft café hopping",description:"Explore Bengaluru's café culture.",cost:900,time:"Evening",category:"Food"},{title:"Nandi Hills sunrise",description:"Early morning viewpoint trip outside the city.",cost:1000,time:"Sunrise",category:"Nature"},{title:"Local tasting dinner",description:"Finish with a curated local meal.",cost:1800,time:"Night",category:"Food"}]},
+{name:"Jim Corbett",country:"India",type:"wildlife",budgetLevel:"high",rating:4.8,image:img("corbett"),estimatedDailyBudget:3800,bestMonths:["November","December","January","February","March","April","May","June"],tags:["nature","wildlife","trekking","photography","safari"],highlights:["Jeep safari","Forest trails","Bird watching"],travelTips:["Safari permits should be planned early","Follow forest rules and keep noise low","Carry binoculars and neutral clothing"],activities:[{title:"Jeep safari",description:"Explore the forest with a licensed safari operator.",cost:3500,time:"Morning",category:"Wildlife"},{title:"Corbett waterfall",description:"A short nature excursion and photo stop.",cost:300,time:"Afternoon",category:"Nature"},{title:"Bird watching trail",description:"Slow-paced walk for local birdlife.",cost:500,time:"Morning",category:"Wildlife"},{title:"Riverside nature walk",description:"Relaxed walk around the forest edge.",cost:200,time:"Evening",category:"Nature"},{title:"Resort bonfire",description:"A quiet evening after a safari day.",cost:800,time:"Night",category:"Relaxation"}]},
+{name:"Rishikesh",country:"India",type:"adventure",budgetLevel:"low",rating:4.8,image:img("rishikesh"),estimatedDailyBudget:1900,bestMonths:["February","March","April","September","October","November"],tags:["trekking","adventure","relaxation","yoga","rafting"],highlights:["Ganga rafting","Ganga Aarti","Yoga and cafés"],travelTips:["Check river conditions before rafting","Keep one low-intensity day after adventure activities","Carry quick-dry clothing"],activities:[{title:"White-water rafting",description:"Guided rafting on the Ganges, subject to river conditions.",cost:1000,time:"Morning",category:"Adventure"},{title:"Ram Jhula walk",description:"Walk across the river and explore nearby lanes.",cost:100,time:"Afternoon",category:"Culture"},{title:"Ganga Aarti",description:"Attend the evening ceremony at Triveni Ghat.",cost:0,time:"Evening",category:"Culture"},{title:"Bungee jumping",description:"Optional high-adrenaline experience with a licensed operator.",cost:3500,time:"Afternoon",category:"Adventure"},{title:"Beatles Ashram",description:"Explore the colourful art-filled ashram grounds.",cost:150,time:"Morning",category:"Culture"}]},
+{name:"Udaipur",country:"India",type:"heritage",budgetLevel:"medium",rating:4.8,image:img("udaipur"),estimatedDailyBudget:2500,bestMonths:["October","November","December","January","February","March"],tags:["history","lakes","food","romantic","architecture"],highlights:["Lake Pichola","City Palace","Sunset viewpoints"],travelTips:["Reserve lake-facing restaurants for sunset","Walking is useful around the old city","Start palace visits before afternoon"],activities:[{title:"City Palace",description:"Explore the royal complex overlooking Lake Pichola.",cost:500,time:"Morning",category:"Heritage"},{title:"Lake Pichola boat ride",description:"A scenic lake experience around sunset.",cost:900,time:"Evening",category:"Relaxation"},{title:"Old City food walk",description:"Try regional snacks and local dishes.",cost:700,time:"Afternoon",category:"Food"},{title:"Monsoon Palace viewpoint",description:"Panoramic city and lake views.",cost:400,time:"Sunset",category:"Viewpoint"}]},
+{name:"Ladakh",country:"India",type:"adventure",budgetLevel:"high",rating:4.9,image:img("ladakh"),estimatedDailyBudget:4200,bestMonths:["May","June","July","August","September"],tags:["adventure","nature","photography","mountains","road trip"],highlights:["Pangong Lake","High-altitude passes","Monasteries"],travelTips:["Acclimatization is essential","Keep hydration and rest in your schedule","Road conditions can change quickly"],activities:[{title:"Leh acclimatization walk",description:"Keep the first day light and explore locally.",cost:300,time:"Morning",category:"Wellness"},{title:"Monastery circuit",description:"Visit key monasteries and mountain villages.",cost:1200,time:"Daytime",category:"Culture"},{title:"Pangong Lake excursion",description:"A scenic high-altitude road trip.",cost:2500,time:"Full day",category:"Adventure"},{title:"Leh market evening",description:"Local shopping and café time.",cost:800,time:"Evening",category:"Shopping"}]}
 ];
-
 export default destinations;

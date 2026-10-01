@@ -1,0 +1,22 @@
+FINAL PHOTO FIX
+
+The previous build still displayed the old SVG placeholder artwork because existing MongoDB destination records could still contain the old /images/*.svg paths.
+
+This build fixes that in two ways:
+1. The frontend maps the 8 starter destinations to real Wikimedia Commons photographs, even when MongoDB still has an old SVG image path.
+2. On backend startup, legacy SVG image paths are migrated to the real photo URL. Admin-customized non-SVG images are not overwritten.
+
+The destination SVG placeholder files were removed. Only fallback.svg remains for destinations that do not have a known photo.
+
+Real photographs:
+Goa — Colva Beach
+Manali — Himalayan mountains
+Jaipur — Hawa Mahal
+Bengaluru — Vidhana Soudha
+Jim Corbett — tiger
+Rishikesh — Ganga
+Udaipur — Lake Palace
+Ladakh — Pangong Lake
+
+IMPORTANT:
+After replacing your project with this ZIP, restart both backend and frontend. In the browser, do a hard refresh (Ctrl+Shift+R) once.

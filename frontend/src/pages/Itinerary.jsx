@@ -1,73 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import api from "../api/axios.js";
-
-const Itinerary = () => {
-  const { id } = useParams();
-  const [itinerary, setItinerary] = useState(null);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    api
-      .get(`/itineraries/${id}`)
-      .then((res) => setItinerary(res.data.itinerary))
-      .catch((err) => setError(err.response?.data?.message || "Couldn't load this itinerary."))
-      .finally(() => setLoading(false));
-  }, [id]);
-
-  if (loading) return <p className="max-w-3xl mx-auto px-6 py-16 text-paper/60">Loading your itinerary…</p>;
-  if (error) return <p className="max-w-3xl mx-auto px-6 py-16 text-stamp">{error}</p>;
-  if (!itinerary) return null;
-
-  return (
-    <div className="max-w-3xl mx-auto px-6 py-16">
-      <p className="font-mono text-xs uppercase tracking-[0.3em] text-amber mb-3">Your itinerary</p>
-      <h1 className="font-display text-4xl mb-1">{itinerary.destinationName}</h1>
-      <p className="text-paper/60 text-sm mb-8">
-        {itinerary.days.length} day{itinerary.days.length > 1 ? "s" : ""} · estimated cost ₹
-        {itinerary.totalEstimatedCost.toLocaleString("en-IN")}
-      </p>
-
-      <div className="space-y-4">
-        {itinerary.days.map((day) => (
-          <div key={day.day} className="bg-paper text-navy rounded-2xl p-6 perforated">
-            <p className="font-mono text-xs uppercase tracking-wide text-navy/50 mb-3">Day {day.day}</p>
-            <div className="space-y-3">
-              {day.activities.map((activity, idx) => (
-                <div key={idx} className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-wide text-navy/40">
-                      {activity.time}
-                    </p>
-                    <p className="font-display text-base leading-snug">{activity.title}</p>
-                  </div>
-                  <p className="font-mono text-sm text-navy/60 whitespace-nowrap">
-                    ₹{activity.estimatedCost.toLocaleString("en-IN")}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-10 flex gap-4">
-        <Link
-          to="/plan"
-          className="bg-amber text-navy font-mono font-bold uppercase text-sm tracking-wide px-6 py-3 rounded-full hover:brightness-110 transition"
-        >
-          Plan another trip
-        </Link>
-        <Link
-          to="/dashboard"
-          className="border border-paper/20 font-mono uppercase text-sm tracking-wide px-6 py-3 rounded-full hover:border-amber hover:text-amber transition"
-        >
-          View all itineraries
-        </Link>
-      </div>
-    </div>
-  );
-};
-
-export default Itinerary;
+import React,{useEffect,useMemo,useState}from"react";import{Link,useParams}from"react-router-dom";import api from"../api/axios.js";import{FALLBACK,getDestinationImage}from"../utils/destinationImages.js";
+export default function Itinerary(){const{id}=useParams(),[x,setX]=useState(null),[err,setErr]=useState(""),[checked,setChecked]=useState(()=>JSON.parse(localStorage.getItem(`wayfarer_pack_${id}`)||"[]")),[notice,setNotice]=useState("");
+useEffect(()=>{api.get(`/itineraries/${id}`).then(r=>setX(r.data.itinerary)).catch(e=>setErr(e.response?.data?.message||"Itinerary not found"))},[id]);
+const togglePack=item=>{const next=checked.includes(item)?checked.filter(v=>v!==item):[...checked,item];setChecked(next);localStorage.setItem(`wayfarer_pack_${id}`,JSON.stringify(next))};
+const share=async()=>{const url=window.location.href;try{if(navigator.share)await navigator.share({title:x?.tripName||"Wayfarer itinerary",text:`My Wayfarer trip to ${x?.destinationName}`,url});else{await navigator.clipboard.writeText(url);setNotice("Trip link copied to clipboard")}}catch{} };
+const totalActivities=useMemo(()=>x?.days?.reduce((n,d)=>n+(d.activities?.length||0),0)||0,[x]);
+if(err)return <main className="max-w-3xl mx-auto px-5 py-20"><div className="card p-8"><h1 className="font-display text-3xl">We couldn't open this trip</h1><p className="text-white/50 mt-2">{err}</p><Link to="/dashboard" className="btn btn-primary mt-6">Back to my trips</Link></div></main>;
+if(!x)return <main className="min-h-[60vh] grid place-items-center text-amber">Loading your itinerary…</main>;
+return <main className="max-w-7xl mx-auto px-5 py-12"><div className="flex flex-wrap justify-between gap-4 items-center print:hidden"><Link to="/dashboard" className="text-amber">← My trips</Link><div className="flex gap-2"><button onClick={share} className="btn btn-secondary">↗ Share</button><button onClick={()=>window.print()} className="btn btn-primary">▣ Save / Print PDF</button></div></div>{notice&&<div className="card px-4 py-3 mt-4 text-amber print:hidden">{notice}</div>}<section className="grid lg:grid-cols-[1.4fr_1fr] gap-7 mt-7"><div className="relative overflow-hidden rounded-3xl min-h-[360px]"><img src={getDestinationImage({name:x.destinationName,image:x.destinationImage})} onError={e=>e.currentTarget.src=FALLBACK} alt={x.destinationName} className="absolute inset-0 w-full h-full object-cover"/><div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"/><div className="absolute left-7 right-7 bottom-7"><p className="eyebrow">YOUR PERSONALIZED PLAN</p><h1 className="font-display text-5xl mt-2">{x.tripName}</h1><p className="text-white/65 mt-2">{x.destinationName} · {x.durationDays} days · {x.groupType}{x.startDate?` · ${new Date(x.startDate).toLocaleDateString()}`:""}</p></div></div><div className="glass rounded-3xl p-7"><p className="text-white/40 text-xs">TRIP OVERVIEW</p><p className="text-white/65 mt-4 leading-7">{x.summary}</p><div className="grid grid-cols-3 gap-3 mt-7"><div className="bg-white/5 rounded-2xl p-4"><p className="text-xs text-white/40">EST. TOTAL</p><b className="text-2xl">₹{(x.totalEstimatedCost||0).toLocaleString()}</b></div><div className="bg-white/5 rounded-2xl p-4"><p className="text-xs text-white/40">DAYS</p><b className="text-2xl">{x.durationDays}</b></div><div className="bg-white/5 rounded-2xl p-4"><p className="text-xs text-white/40">ACTIVITIES</p><b className="text-2xl">{totalActivities}</b></div></div><p className="text-xs text-white/40 mt-6">BUDGET BREAKDOWN</p><div className="space-y-3 mt-3">{Object.entries(x.budgetBreakdown||{}).filter(([k])=>k!=="accommodationNote").map(([k,v])=><div key={k} className="flex justify-between text-sm"><span className="capitalize text-white/55">{k}</span><span>₹{Number(v).toLocaleString()}</span></div>)}</div><p className="text-white/35 text-xs mt-5">{x.budgetBreakdown?.accommodationNote}</p></div></section><section className="grid lg:grid-cols-[1.7fr_1fr] gap-10 mt-12"><div><p className="eyebrow">DAY BY DAY</p><h2 className="font-display text-4xl mt-2">Your route</h2><div className="space-y-5 mt-6">{x.days.map(d=><article key={d.day} className="card p-6 break-inside-avoid"><div className="flex gap-4"><div className="w-12 h-12 rounded-2xl bg-amber text-navy grid place-items-center font-bold shrink-0">{String(d.day).padStart(2,"0")}</div><div><h3 className="font-display text-2xl">{d.title}</h3><p className="text-white/40 text-sm mt-1">Day {d.day}</p></div></div><div className="mt-6 space-y-4 ml-1">{d.activities.map((a,i)=><div key={i} className="flex gap-4"><div className="w-20 shrink-0 text-xs font-mono text-amber pt-1">{a.time}</div><div className="border-l border-white/10 pl-4 pb-2"><div className="flex flex-wrap gap-2 items-center"><b>{a.title}</b><span className="text-[10px] uppercase tracking-wider text-white/35">{a.category}</span></div><p className="text-white/50 text-sm mt-1">{a.description}</p><p className="text-white/35 text-xs mt-2">Estimated ₹{(a.estimatedCost||0).toLocaleString()}</p></div></div>)}</div></article>)}</div></div><aside className="space-y-5"><div className="glass rounded-2xl p-6"><p className="text-xs text-white/40">PACKING CHECKLIST</p><ul className="mt-4 space-y-3">{(x.packingList||[]).map(i=><li key={i}><label className={`flex gap-3 text-sm cursor-pointer ${checked.includes(i)?"text-white/35 line-through":"text-white/70"}`}><input type="checkbox" checked={checked.includes(i)} onChange={()=>togglePack(i)} className="accent-amber"/>{i}</label></li>)}</ul><p className="text-xs text-white/35 mt-4">{checked.length}/{x.packingList?.length||0} packed</p></div><div className="glass rounded-2xl p-6"><p className="text-xs text-white/40">LOCAL TIPS</p><ul className="mt-4 space-y-3">{(x.travelTips||[]).map(i=><li key={i} className="flex gap-2 text-sm text-white/65"><span className="text-amber">✓</span>{i}</li>)}</ul></div><div className="glass rounded-2xl p-6 print:hidden"><p className="text-xs text-white/40">TRIP TOOLS</p><p className="text-white/60 text-sm mt-3">Save this plan as a PDF for offline use or share the trip link with your travel group.</p><div className="flex flex-wrap gap-2 mt-4"><button onClick={()=>window.print()} className="btn btn-primary text-sm">Save PDF</button><button onClick={share} className="btn btn-secondary text-sm">Share trip</button></div></div></aside></section></main>}

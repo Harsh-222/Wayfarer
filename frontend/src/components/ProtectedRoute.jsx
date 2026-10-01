@@ -1,14 +1,1 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext.jsx";
-
-const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
-
-  if (loading) return <p className="max-w-3xl mx-auto px-6 py-16 text-paper/60">Loading…</p>;
-  if (!user) return <Navigate to="/login" replace />;
-
-  return children;
-};
-
-export default ProtectedRoute;
+import React from"react";import{Navigate,useLocation}from"react-router-dom";import{useAuth}from"../context/AuthContext.jsx";export default function ProtectedRoute({children,admin=false}){const{user,loading}=useAuth(),loc=useLocation();if(loading)return <div className="min-h-screen grid place-items-center text-amber">Loading Wayfarer…</div>;if(!user)return <Navigate to="/login" state={{from:loc.pathname}} replace/>;if(admin&&user.role!=="admin")return <Navigate to="/dashboard" replace/>;return children}
