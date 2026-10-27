@@ -10,8 +10,21 @@ import {ensureSetup} from "./utils/ensureSetup.js";
 
 dotenv.config();
 const app=express();
-const allowed=(process.env.CLIENT_URL||"http://localhost:5173").split(",").map(x=>x.trim()).filter(Boolean);
-app.use(cors({origin:(origin,cb)=>{if(!origin||allowed.includes(origin))return cb(null,true);return cb(new Error("CORS blocked for this origin"));},credentials:true}));
+const allowed = [
+  "http://localhost:5173",
+  "https://wayfarer-frontend-six.vercel.app",
+  ...(process.env.CLIENT_URL || "").split(",").map(x => x.trim()).filter(Boolean)
+];
+
+app.use(cors({
+  origin: (origin, cb) => {
+    if (!origin || allowed.includes(origin)) {
+      return cb(null, true);
+    }
+    return cb(new Error("CORS blocked for " + origin));
+  },
+  credentials: true
+}));
 app.use(express.json({limit:"1mb"}));
 app.use("/images", express.static(new URL("../frontend/public/images/", import.meta.url).pathname));
 app.get("/api/health",(req,res)=>res.json({ok:true,service:"Wayfarer API",version:"4.0"}));
