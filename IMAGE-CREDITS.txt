@@ -1,0 +1,30 @@
+WAYFARER IMAGE CREDITS
+
+The destination images used by the final build are real photographs from Wikimedia Commons.
+They are loaded from Wikimedia's image CDN at runtime.
+
+Goa — Colva Beach, Goa, India — Ria Colva — CC0 1.0
+https://commons.wikimedia.org/wiki/File:Colva_Beach,_Goa,_India.jpg
+
+Manali — The Himalayan mountains in Manali, Himachal Pradesh — Yellowowl — CC BY-SA 4.0
+https://commons.wikimedia.org/wiki/File:The_Himalayan_mountains_in_Manali,_Himachal_Pradesh.jpg
+
+Jaipur — Hawa Mahal in Jaipur, Rajasthan — LakshayDhiman14 — CC BY-SA 4.0
+https://commons.wikimedia.org/wiki/File:Hawa_Mahal_in_Jaipur,_Rajasthan.jpg
+
+Bengaluru — Vidhansoudha — Harish.halebeed — see source page for license
+https://commons.wikimedia.org/wiki/File:Vidhansoudha.jpg
+
+Jim Corbett — Images of Tiger at Jim Corbett National Park — Sulagna chandra — see source page for license
+https://commons.wikimedia.org/wiki/File:Images_of_Tiger_at_Jim_Corbett_National_Park.jpg
+
+Rishikesh — The Ganga at Rishikesh — Kanishka Sharma — CC BY-SA 4.0
+https://commons.wikimedia.org/wiki/File:The_Ganga_at_Rishikesh.jpg
+
+Udaipur — Lake Palace,Udaipur — Mysticbharat — see source page for license
+https://commons.wikimedia.org/wiki/File:Lake_Palace,Udaipur.jpg
+
+Ladakh — Ladakh, pangong lake — Swapnil Sakhare — CC BY-SA 4.0
+https://commons.wikimedia.org/wiki/File:Ladakh,_pangong_lake.jpg
+
+Note: The application does not ship generated/illustrated destination artwork. The destination cards resolve these real photographs even when an older MongoDB record still contains the previous .svg placeholder path.

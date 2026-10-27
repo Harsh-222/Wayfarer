@@ -28,3 +28,6 @@ Backend:
 
 Frontend:
 `npm install && npm run dev`
+
+## Deploying backend on Vercel
+Set root directory to backend. Env vars: MONGODB_URI, JWT_SECRET, CLIENT_URL, ADMIN_EMAIL, ADMIN_PASSWORD. Atlas Network Access must allow 0.0.0.0/0. Redeploy after changing env vars.
