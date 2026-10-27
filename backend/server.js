@@ -18,4 +18,22 @@ app.get("/api/health",(req,res)=>res.json({ok:true,service:"Wayfarer API",versio
 app.use("/api/auth",authRoutes);app.use("/api/itineraries",itineraryRoutes);app.use("/api/admin",adminRoutes);app.use("/api/destinations",destinationRoutes);
 app.use((err,req,res,next)=>{console.error(err);res.status(500).json({message:"Server error",error:err.message})});
 const port=process.env.PORT||5000;
-connectDB().then(async()=>{await ensureSetup();app.listen(port,()=>console.log(`Wayfarer API running on ${port}`));}).catch(e=>{console.error(e);process.exit(1)});
+export default app;
+
+// Start the server locally.
+if (!process.env.VERCEL) {
+  const port = process.env.PORT || 5000;
+
+  connectDB()
+    .then(async () => {
+      await ensureSetup();
+
+      app.listen(port, () => {
+        console.log(`Wayfarer API running on ${port}`);
+      });
+    })
+    .catch((error) => {
+      console.error("Server startup failed:", error);
+      process.exitCode = 1;
+    });
+}
